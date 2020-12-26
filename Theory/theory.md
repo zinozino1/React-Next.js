@@ -14,7 +14,7 @@
 1) 첫 loading, 새로고침, a태그를 통한 주소 변경 => loading 발생 : 백엔드에서 완성된 html을 주기 때문
 2) 그 이후엔 => loading 발생 x
 3) 무조건 pages폴더가 존재해야함, pages폴더 안에 있는 파일들을 next가 자동으로 코드스플리팅 된 컴포넌트로 만들어준다. 또한 react, react-dom 설치하면 하면 되고 import할 필요 없게된다.
-4) pages 폴더에 파일을 만들기만 하면 page 라우팅 알아서 해준다! pages 파일은 소문자로 작성하고 내부 코드는 대문자 시작 + 카멜케이스 & 폴더 구성 후 폴더 안에 파일 만들면 depth 2 이상 가능
+4) pages 폴더에 파일을 만들기만 하면 page 라우팅 알아서 해준다!(Dynamic Routing) pages 파일은 소문자로 작성하고 내부 코드는 대문자 시작 + 카멜케이스 & 폴더 구성 후 폴더 안에 파일 만들면 depth 2 이상 가능
 5) 개발모드에선 조금 느리다. 하지만 배포모드로 빌드하면 빨라짐 (로딩속도)
 
 * 사용
@@ -27,6 +27,7 @@
 당신의 앱이 커짐에 따라 타입 확인을 통하면 많은 버그를(bug) 잡을 수 있습니다. 특정 애플리케이션에서는 전체 애플리케이션의 타입 확인을 위하여 Flow 또는 TypeScript와 같은 JavaScript 도구(Extensions)를 사용할 수 있습니다. 당신이 이러한 것들을 사용하지 않더라도 React는 내장된 타입 확인 기능들을 가지고 있습니다. 컴포넌트의 props에 타입 확인을 하려면 다음과 같이 특별한 프로퍼티인 propTypes를 선언할 수 있습니다.
 
 * propTypes로 컴포넌트에 전달되는 props의 타입검사를 할 수 있다.
+-> 더불어 default 값도 설정할 수 있음.
 
 
 
@@ -34,8 +35,13 @@
 3. 공통 컴포넌트 설계
 
 1) 모든 page에서 공통 pages/_app.jsx 에 작성
+
 2) 특정 컴포넌트들에서 공통 components/...Layout.jsx 에 작성
-3) head를 수정하고싶을 땐 "next/head"임포트 시켜서 사용
+
+******
+-> 페이지를 이동해도 몇몇 화면은 그대로인 프로젝트는 공통 레이아웃을 써야함
+
+3) head를 수정하고싶을 땐 Head "next/head"임포트 시켜서 사용
 
 
 4. antd 반응형
@@ -64,6 +70,38 @@
 
 * 어떤 컴포넌트를 설계할 때 잘게 쪼개서 하는 것보단 일단 큼직하게 나눠서 코딩하는 것이 좋음
 (가상의 컴포넌트 작성) -> 가상의 컴포넌트 작성 후 해당 컴포넌트를 상세히 작성.
+
+***** presenter - container 구조는 presenter의 깊이가 깊을수록 props로 전달하는 부담이 큼. 일단 presenter 컴포넌트에서 모두 처리하는 식으로 하고 코드가 100 줄이 넘어가면 쪼개는 식으로
+
+*** 비슷한데 데이터가 다른 컴포넌트는 ? -> props 갯수가 많아지면 아예 다른 컴포넌트로 하고 props가 별로 없으면 같은 컴포넌튼데 props로 분리하는 식으로 만들면 된다.(2~3 개 정도)
+
+
+
+7. 커스텀 훅 사용하기
+
+** form을 구성하는 전형적인 코드는 ex) id, setId, onChangeId등의 요소가 필요한데 input마다 모두 있으면 중복이 매우 많음.
+
+-> 커스텀 useInput 훅
+
+const useInput = (initialValue = null) => {
+    const [value, setValue] = useState(initialValue);
+    const handler = useCallback((e) => {
+        setValue(e.target.value);
+    }, []);
+
+    return [value, handler];
+};
+
+export default useInput;
+
+
+8. checkbox
+-> e.target.checkd 으로 다뤄야 함 + state value는 boolean으로.
+
+
+
+
+
 
 
 ```

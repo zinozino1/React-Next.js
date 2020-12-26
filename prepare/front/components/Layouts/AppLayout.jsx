@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Link from "next/link";
 import { Menu, Input, Row, Col } from "antd";
-import UserProfile from "../UserProfile";
-import LoginForm from "../LoginForm";
+import UserProfile from "../auth/UserProfile";
+import LoginForm from "../auth/LoginForm";
 import styled from "styled-components";
 
 const SearchWrapper = styled(Input.Search)`

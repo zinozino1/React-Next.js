@@ -1,8 +1,8 @@
 import React from "react";
 import AppLayout from "../components/Layouts/AppLayout";
 import Head from "next/head";
-import NicknameEditForm from "../components/NicknameEditForm";
-import FollowList from "../components/FollowList";
+import NicknameEditForm from "../components/main/profile/NicknameEditForm";
+import FollowList from "../components/main/profile/FollowList";
 
 const Profile = () => {
     const followerList = [
@@ -26,6 +26,10 @@ const Profile = () => {
         { nickname: "1" },
         { nickname: "2" },
         { nickname: "3" },
+        { nickname: "3" },
+        { nickname: "1" },
+        { nickname: "2" },
+        { nickname: "2138903" },
     ];
     return (
         <>
