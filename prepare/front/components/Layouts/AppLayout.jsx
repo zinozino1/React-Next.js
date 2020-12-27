@@ -5,13 +5,18 @@ import { Menu, Input, Row, Col } from "antd";
 import UserProfile from "../auth/UserProfile";
 import LoginForm from "../auth/LoginForm";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
 
 const SearchWrapper = styled(Input.Search)`
     vertical-align: middle;
 `;
 
 const AppLayout = ({ children }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { isLoggedIn } = useSelector(({ user }) => ({
+        isLoggedIn: user.isLoggedIn,
+    }));
+    const { mainPosts } = useSelector((state) => state.post);
+
     return (
         <div>
             <Menu mode="horizontal">
@@ -45,11 +50,9 @@ const AppLayout = ({ children }) => {
                     style={{ border: "1px solid black" }}
                 >
                     {isLoggedIn ? (
-                        <UserProfile
-                            setIsLoggedIn={setIsLoggedIn}
-                        ></UserProfile>
+                        <UserProfile></UserProfile>
                     ) : (
-                        <LoginForm setIsLoggedIn={setIsLoggedIn}></LoginForm>
+                        <LoginForm></LoginForm>
                     )}
                 </Col>
                 <Col

@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+
 import AppLayout from "../components/Layouts/AppLayout";
 import Head from "next/head";
 import { Form, Input, Checkbox, Button } from "antd";
@@ -41,9 +42,11 @@ const SignUp = () => {
 
     const onSubmit = useCallback(() => {
         if (password !== passwordCheck) {
+            alert("비밀번호가 일치하지 않습니다.");
             return setPasswordError(true);
         }
         if (!term) {
+            alert("약관에 동의하세요.");
             return setTermError(true);
         }
         console.log(id, password);

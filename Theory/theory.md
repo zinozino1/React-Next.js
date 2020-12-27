@@ -99,9 +99,36 @@ export default useInput;
 -> e.target.checkd 으로 다뤄야 함 + state value는 boolean으로.
 
 
+8.5 비밀번호 및 약관동의 체크 스킬 다시 보기
 
 
+9. next + redux 편하게 해줄 수 있는 next-redux-wrapper 라이브러리 사용.
+* next에서는 기존 Provider, store 부분이 안들어간다 위 라이브러리가 알아서 해줌
 
 
+10. 컴포넌트의 역할 -> 화면 그리기. 데이터까지(데이터 요청) 다루면 너무 일이 많다. 데이터는 리덕스에서 다루자
+
+
+11. redux 불변성
+{} === {} // false
+const a = {}
+const b = a;
+a === b // true
+
+return { => 객체를 새로 만듦 왜? : 변경 내역이 추적된다. prev와 next(새로만든 것) 객체가 있어야 비교를 할 수 있으니까. 직접 바꾸면 비교할 대상이 겹쳐버리기 때문에 사라진 것과 같다
+    ...state, ==> 이거는 ? 메모리를 아끼기 위해 사용 (모든게 기록으로 남아있기 때문)
+    name:action.data,
+}
+
+*
+const nest = { a : "c"};
+const prev = { b : nest};
+const next = {...prev};
+
+prev.b === next.b // true
+
+prev === next // false
+
+==> 참조는 그대로 유지. 메모리를 절약할 수 있음.
 
 ```
