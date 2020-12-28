@@ -4,7 +4,7 @@ import { handleActions, createAction } from "redux-actions";
 
 const initialState = {
     isLoggedIn: false,
-    user: null,
+    me: null,
     signUpData: {},
     loginData: {},
 };

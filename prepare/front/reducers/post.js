@@ -84,7 +84,7 @@ const initialState = {
 // dummy data
 
 const dummyPost = {
-    id: 2,
+    id: 3,
     content: "더미데이터임",
     User: {
         id: 1,

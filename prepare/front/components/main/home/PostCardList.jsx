@@ -5,7 +5,7 @@ const PostCardList = ({ data }) => {
     return (
         <>
             {data.map((v, i) => (
-                <PostCard key={v.id} item={v}></PostCard>
+                <PostCard key={v.id} post={v}></PostCard>
             ))}
         </>
     );
