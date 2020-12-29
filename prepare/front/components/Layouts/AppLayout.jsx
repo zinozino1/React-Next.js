@@ -12,6 +12,8 @@ const SearchWrapper = styled(Input.Search)`
 `;
 
 const AppLayout = ({ children }) => {
+    // 페이지 하단 좌우스크롤이 신경쓰인다면 gutter의 마진을 제거해줘야함. 필요하면 강의 참조
+
     const { isLoggedIn } = useSelector(({ user }) => ({
         isLoggedIn: user.isLoggedIn,
     }));

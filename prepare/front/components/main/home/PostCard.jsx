@@ -11,6 +11,7 @@ import PostImages from "./PostImages";
 import CommentForm from "./CommentForm";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import PostCardContent from "./PostCardContent";
 
 const CardWrapper = styled.div`
     margin-bottom: 15px;
@@ -79,7 +80,11 @@ const PostCard = ({ post }) => {
             >
                 <Card.Meta
                     avartar={<Avatar>{post.User.nickname}</Avatar>}
-                    description={post.content}
+                    description={
+                        <PostCardContent
+                            postData={post.content}
+                        ></PostCardContent>
+                    }
                     title={post.User.nickname}
                 ></Card.Meta>
             </Card>

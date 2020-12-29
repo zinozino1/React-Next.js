@@ -10,7 +10,7 @@ const initialState = {
                 id: 1,
                 nickname: "제로초",
             },
-            content: "첫 번째 게시글",
+            content: "첫 번째 게시글 #해시태그 #키키 #ㄴㄴㄴ ##adf",
             Images: [
                 {
                     src:
@@ -51,14 +51,6 @@ const initialState = {
                 {
                     src:
                         "https://bookthumb-phinf.pstatic.net/cover/137/995/13799585.jpg?udate=20180726",
-                },
-                {
-                    src:
-                        "https://gimg.gilbut.co.kr/book/BN001958/rn_view_BN001958.jpg",
-                },
-                {
-                    src:
-                        "https://gimg.gilbut.co.kr/book/BN001998/rn_view_BN001998.jpg",
                 },
             ],
             Comments: [

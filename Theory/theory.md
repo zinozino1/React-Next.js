@@ -131,9 +131,58 @@ prev === next // false
 
 ==> 참조는 그대로 유지. 메모리를 절약할 수 있음.
 
+* next-redux-wrapper 필요
+
+
 
 
 12. 배열안에 JSX 넣으려면 꼭 key 필요
 
+
+
+13. redux-saga
+
+-> redux-saga, next-redux-saga(withReduxSaga로 래핑) 패키지 필요
+
+// saga effects
+
+<rootSaga/>
+* all
+-> 배열을 받고 배열의 요소들을 한 번에 실행 시켜줌
+
+* fork (비동기 함수 실행)
+-> 함수를 실행
+
+<watcher/>
+* put
+-> dispatch
+
+* call (동기 함수 실행)
+-> api 비동기 처리
+
+<saga/>
+* take
+-> 액션 호출 대기
+
+
+**** yield 를 쓰는 이유? -> 테스팅에 매우 용이함
+
+take : 일회용
+takeEvery : 모든 요청 받음
+takeLastest : 가장 마지막 것만 실행
+
+
+**** 보통은 takeLatest 쓴다.
+여기서 주의할 것은 만약 클릭을 두 번해서 요청이 두 번 드갔으면 takeLatest의 경우
+첫번째 응답이 사라짐. 따라서 응답 하나만 받을 수 있다. 하지만 요청은 사라지지 않아 두 개가 모두
+전달 됨. 따라서 서버 측에서 이를 적절히 처리해야 한다.
+
+* throttle을 사용한다면 요청 또한 적절히 없앨 수 있음.
+yield throttle(..., addPost, 2000); -> 2초 안에 단 한 번만 요청 가능.
+
+-> 근데 보통 특수한 경우 아니면 잘 안 씀(서버에서 처리하는 것이 좋다. - 중복된 데이터 처리)
+
+
+* delay -> 서버 구축하기 전 비동기 테스트용으로 쓸만함.
 
 ```

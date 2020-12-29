@@ -1,0 +1,1 @@
+{"ast":null,"code":"const rootSaga = () => {};\n\nexport default rootSaga;","map":{"version":3,"sources":["/Users/jinho/JS/NodeBird/prepare/front/sagas/index.js"],"names":["rootSaga"],"mappings":"AAAA,MAAMA,QAAQ,GAAG,MAAM,CAAE,CAAzB;;AAEA,eAAeA,QAAf","sourcesContent":["const rootSaga = () => {};\n\nexport default rootSaga;\n"]},"metadata":{},"sourceType":"module"}
