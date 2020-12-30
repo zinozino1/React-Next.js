@@ -88,17 +88,31 @@ const dummyPost = {
 
 // action type
 
-const ADD_POST = "ADD_POST";
+export const ADD_POST_REQUEST = "ADD_POST_REQUEST";
+export const ADD_POST_SUCCESS = "ADD_POST_SUCCESS";
+export const ADD_POST_FAILURE = "ADD_POST_FAILURE";
 
 // action creator
 
-export const addPostAction = createAction(ADD_POST);
+export const addPostRequestAction = createAction(ADD_POST_REQUEST);
 
 // reducer
 
 const reducer = handleActions(
     {
-        [ADD_POST]: (state, action) => ({
+        // [ADD_POST_REQUEST]: (state, action) => ({
+        //     ...state,
+        //     // 잎에 추가를 해야 위에서 부터 추가됨
+        //     mainPosts: state.mainPosts.concat(dummyPost),
+        //     //[dummyPost, ...state.mainPosts],
+        // }),
+        [ADD_POST_SUCCESS]: (state, action) => ({
+            ...state,
+            // 잎에 추가를 해야 위에서 부터 추가됨
+            mainPosts: state.mainPosts.concat(dummyPost),
+            //[dummyPost, ...state.mainPosts],
+        }),
+        [ADD_POST_FAILURE]: (state, action) => ({
             ...state,
             // 잎에 추가를 해야 위에서 부터 추가됨
             mainPosts: state.mainPosts.concat(dummyPost),

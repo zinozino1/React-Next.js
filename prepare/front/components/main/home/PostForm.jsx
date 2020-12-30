@@ -3,7 +3,7 @@ import { Form, Input, Button } from "antd";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import useInput from "../../../hooks/useInput";
-import { addPostAction } from "../../../reducers/post";
+import { addPostRequestAction } from "../../../reducers/post";
 
 const FormWrapper = styled(Form)`
     padding: 30px;
@@ -22,7 +22,7 @@ const PostForm = () => {
 
     const onSubmit = useCallback(() => {
         console.log("submit");
-        dispatch(addPostAction());
+        dispatch(addPostRequestAction());
         setText("");
     }, [dispatch]);
 
