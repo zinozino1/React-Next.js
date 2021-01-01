@@ -67,6 +67,7 @@ export const signUpRequestAction = createAction(SIGN_UP_REQUEST);
 const dummyMe = { nickname: "zino" };
 
 const dummyUser = (data) => ({
+    // me에 들어갈 데이터
     ...data,
     nickname: "제로초",
     id: 1,
@@ -132,6 +133,42 @@ const reducer = handleActions(
             signUpLoading: false,
             signUpDone: false,
             signUpError: action.error,
+        }),
+        [CHANGE_NICKNAME_REQUEST]: (state, action) => ({
+            ...state,
+            changeNicknameLoading: true, // 닉네임 변경 시도중
+            changeNicknameDone: false,
+            changeNicknameError: null,
+        }),
+        [CHANGE_NICKNAME_SUCCESS]: (state, action) => ({
+            ...state,
+            changeNicknameLoading: false, // 닉네임 변경 시도중
+            changeNicknameDone: true,
+            changeNicknameError: null,
+        }),
+        [CHANGE_NICKNAME_FAILURE]: (state, action) => ({
+            ...state,
+            changeNicknameLoading: false, // 닉네임 변경 시도중
+            changeNicknameDone: false,
+            changeNicknameError: action.error,
+        }),
+        [FOLLOW_REQUEST]: (state, action) => ({
+            ...state,
+            followLoading: true, // 팔로우 시도중
+            followDone: false,
+            followError: null,
+        }),
+        [FOLLOW_SUCCESS]: (state, action) => ({
+            ...state,
+            followLoading: false, // 팔로우 시도중
+            followDone: true,
+            followError: null,
+        }),
+        [FOLLOW_FAILURE]: (state, action) => ({
+            ...state,
+            followLoading: false, // 팔로우 시도중
+            followDone: false,
+            followError: null,
         }),
     },
     initialState,

@@ -80,16 +80,18 @@ const initialState = {
 
 // dummy data
 
-const dummyPost = {
-    id: 3,
-    content: "더미데이터임",
+let tmpId = 3;
+
+const dummyPost = (data) => ({
+    id: tmpId++,
     User: {
         id: 1,
         nickname: "제로초",
     },
+    content: data,
     Images: [],
     Comments: [],
-};
+});
 
 // action type
 
@@ -108,6 +110,11 @@ export const addPostRequestAction = createAction(
     (data) => data,
 );
 
+export const addCommentRequestAction = createAction(
+    ADD_COMMENT_REQUEST,
+    (data) => data,
+);
+
 // reducer
 
 const reducer = handleActions(
@@ -115,7 +122,6 @@ const reducer = handleActions(
         [ADD_POST_REQUEST]: (state, action) => ({
             ...state,
             // 잎에 추가를 해야 위에서 부터 추가됨
-            mainPosts: state.mainPosts.concat(dummyPost),
             addPostLoading: true,
             addPostDone: false,
             addPostError: null,
@@ -123,7 +129,7 @@ const reducer = handleActions(
         [ADD_POST_SUCCESS]: (state, action) => ({
             ...state,
             // 잎에 추가를 해야 위에서 부터 추가됨
-            mainPosts: [dummyPost, ...state.mainPosts],
+            mainPosts: [dummyPost(action.data), ...state.mainPosts],
             addPostLoading: false,
             addPostDone: true,
             addPostError: null,
@@ -131,7 +137,7 @@ const reducer = handleActions(
         [ADD_POST_FAILURE]: (state, action) => ({
             ...state,
             // 잎에 추가를 해야 위에서 부터 추가됨
-            mainPosts: [dummyPost, ...state.mainPosts],
+
             addPostLoading: false,
             addPostDone: false,
             addPostError: action.error,
@@ -146,9 +152,26 @@ const reducer = handleActions(
         [ADD_COMMENT_SUCCESS]: (state, action) => ({
             ...state,
             // 잎에 추가를 해야 위에서 부터 추가됨
+
+            mainPosts: state.mainPosts.map((v, i) => {
+                console.log(action.data);
+                if (v.id === action.data.postId) {
+                    return {
+                        ...v,
+                        Comments: v.Comments.concat({
+                            content: action.data.content,
+                            User: {
+                                ...v.Comments.User,
+                                nickname: action.data.userId,
+                            },
+                        }),
+                    };
+                }
+                return v;
+            }),
             addCommentLoading: false,
             addCommentDone: true,
-            addCommentError: null,
+            addCommentError: action.data,
         }),
         [ADD_COMMENT_FAILURE]: (state, action) => ({
             ...state,

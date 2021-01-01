@@ -1,10 +1,12 @@
-import React, { useCallback, useState } from "react";
-
+import React, { useCallback, useState, useEffect } from "react";
+import Router from "next/router";
 import AppLayout from "../components/Layouts/AppLayout";
 import Head from "next/head";
 import { Form, Input, Checkbox, Button } from "antd";
 import useInput from "../hooks/useInput";
 import styled from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
+import { signUpRequestAction } from "../reducers/user";
 
 const FormWrapper = styled(Form)`
     padding: 20px;
@@ -19,7 +21,10 @@ const SubmitButtonWrapper = styled.div`
 `;
 
 const SignUp = () => {
-    const [id, onChangeId] = useInput("");
+    const dispatch = useDispatch();
+    const { signUpLoading, signUpDone } = useSelector((state) => state.user);
+
+    const [email, onChangeEmail] = useInput("");
     const [nickname, onChangeNickname] = useInput("");
     const [password, onChangePassword] = useInput("");
 
@@ -49,8 +54,16 @@ const SignUp = () => {
             alert("약관에 동의하세요.");
             return setTermError(true);
         }
-        console.log(id, password);
+        dispatch(signUpRequestAction());
+        console.log(email, password);
     }, [password, passwordCheck, term]);
+
+    // useEffect(() => {
+    //     if (signUpDone) {
+    //         // 리디렉션함과 동시에 signUpDone을 다시 false로 만들어줘야함.
+    //         Router.push("/");
+    //     }
+    // }, [signUpDone]);
 
     return (
         <>
@@ -61,13 +74,14 @@ const SignUp = () => {
             <AppLayout>
                 <FormWrapper onFinish={onSubmit}>
                     <div>
-                        <label htmlFor="user-id">아이디</label>
+                        <label htmlFor="user-email">이메일</label>
                         <br />
                         <Input
-                            name="user-id"
-                            value={id}
+                            type="email"
+                            name="user-email"
+                            value={email}
                             required
-                            onChange={onChangeId}
+                            onChange={onChangeEmail}
                         ></Input>
                     </div>
                     <div>
@@ -124,7 +138,11 @@ const SignUp = () => {
                         )}
                     </div>
                     <SubmitButtonWrapper>
-                        <Button type="primary" htmlType="submit">
+                        <Button
+                            type="primary"
+                            htmlType="submit"
+                            loading={signUpLoading}
+                        >
                             가입하기
                         </Button>
                     </SubmitButtonWrapper>

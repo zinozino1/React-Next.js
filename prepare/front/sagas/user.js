@@ -15,6 +15,8 @@ import {
     LOG_OUT_SUCCESS,
     LOG_OUT_FAILURE,
     SIGN_UP_REQUEST,
+    SIGN_UP_SUCCESS,
+    SIGN_UP_FAILURE,
 } from "../reducers/user";
 
 // api

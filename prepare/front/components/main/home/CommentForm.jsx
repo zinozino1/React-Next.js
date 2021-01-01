@@ -1,9 +1,10 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Form, Input, Button } from "antd";
 import useInput from "../../../hooks/useInput";
 import styled from "styled-components";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addCommentRequestAction } from "../../../reducers/post";
 
 const FormWrapper = styled(Form)`
     margin-bottom: 30px;
@@ -11,15 +12,30 @@ const FormWrapper = styled(Form)`
 
 const CommentForm = ({ post }) => {
     const id = useSelector((state) => state.user.me?.id);
+    const { addCommentDone } = useSelector((state) => state.post);
 
-    const [commentText, onChangeCommentText] = useInput("");
+    const dispatch = useDispatch();
+
+    const [commentText, onChangeCommentText, setCommentText] = useInput("");
 
     const onSubmit = useCallback(
         (e) => {
-            console.log(post.id, commentText);
+            console.log(post.id, commentText, id);
+            dispatch(
+                addCommentRequestAction({
+                    content: commentText,
+                    postId: post.id,
+                    userId: id,
+                    id,
+                }),
+            );
         },
         [commentText],
     );
+
+    useEffect(() => {
+        if (addCommentDone) setCommentText("");
+    }, [addCommentDone]);
 
     return (
         <FormWrapper onFinish={onSubmit}>

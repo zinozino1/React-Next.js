@@ -6,14 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import PostCardList from "../components/main/home/PostCardList";
 
 const Home = () => {
-    const { isLoggedIn } = useSelector(({ user }) => ({
-        isLoggedIn: user.isLoggedIn,
+    const { me } = useSelector(({ user }) => ({
+        me: user.me,
     }));
     const { mainPosts } = useSelector((state) => state.post);
 
     return (
         <AppLayout>
-            {isLoggedIn && <PostForm></PostForm>}
+            {me && <PostForm></PostForm>}
 
             <PostCardList data={mainPosts}></PostCardList>
         </AppLayout>

@@ -24,13 +24,11 @@ function* addPost(action) {
     try {
         // const result = yield call(addPostAPI, action.data);
         yield delay(1000);
-        const id = shortId.generate();
+        //const id = shortId.generate();
+        console.log(action.payload);
         yield put({
             type: ADD_POST_SUCCESS,
-            data: {
-                id,
-                content: action.data,
-            },
+            data: action.payload,
         });
         // yield put({
         //     type: ADD_POST_TO_ME,
@@ -40,7 +38,7 @@ function* addPost(action) {
         console.error(err);
         yield put({
             type: ADD_POST_FAILURE,
-            data: err.response.data,
+            error: err.response.data,
         });
     }
 }
@@ -48,20 +46,18 @@ function* addPost(action) {
 function* addComment(action) {
     try {
         // const result = yield call(addPostAPI, action.data);
+
         yield delay(1000);
 
         yield put({
             type: ADD_COMMENT_SUCCESS,
-            data: {
-                id,
-                content: action.data,
-            },
+            data: action.payload,
         });
     } catch (err) {
         console.error(err);
         yield put({
             type: ADD_COMMENT_FAILURE,
-            data: err.response.data,
+            error: err.response.data,
         });
     }
 }
