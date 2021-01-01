@@ -14,7 +14,9 @@ import {
     LOG_OUT_REQUEST,
     LOG_OUT_SUCCESS,
     LOG_OUT_FAILURE,
+    SIGN_UP_REQUEST,
 } from "../reducers/user";
+
 // api
 
 function logInAPI(data) {
@@ -69,9 +71,25 @@ function* logOut() {
     }
 }
 
+function* signUp() {
+    try {
+        yield delay(1000);
+        yield put({
+            type: SIGN_UP_SUCCESS,
+        });
+    } catch (err) {
+        console.error(err);
+        yield put({
+            type: SIGN_UP_FAILURE,
+            error: err.response.data,
+        });
+    }
+}
+
 // watcher
 
 export function* watchUser() {
     yield takeLatest(LOG_IN_REQUEST, logIn);
     yield takeLatest(LOG_OUT_REQUEST, logOut);
+    yield takeLatest(SIGN_UP_REQUEST, signUp);
 }

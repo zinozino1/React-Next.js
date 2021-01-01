@@ -14,8 +14,8 @@ const SearchWrapper = styled(Input.Search)`
 const AppLayout = ({ children }) => {
     // 페이지 하단 좌우스크롤이 신경쓰인다면 gutter의 마진을 제거해줘야함. 필요하면 강의 참조
 
-    const { isLoggedIn } = useSelector(({ user }) => ({
-        isLoggedIn: user.isLoggedIn,
+    const { me } = useSelector(({ user }) => ({
+        me: user.me,
     }));
     const { mainPosts } = useSelector((state) => state.post);
 
@@ -51,11 +51,7 @@ const AppLayout = ({ children }) => {
                     md={6}
                     style={{ border: "1px solid black" }}
                 >
-                    {isLoggedIn ? (
-                        <UserProfile></UserProfile>
-                    ) : (
-                        <LoginForm></LoginForm>
-                    )}
+                    {me ? <UserProfile></UserProfile> : <LoginForm></LoginForm>}
                 </Col>
                 <Col
                     xs={24}

@@ -70,7 +70,12 @@ const initialState = {
         },
     ],
     imagePaths: [],
-    postAdded: false,
+    addPostLoading: false,
+    addPostDone: false,
+    addPostError: null,
+    addCommentLoading: false,
+    addCommentDone: false,
+    addCommentError: null,
 };
 
 // dummy data
@@ -92,31 +97,65 @@ export const ADD_POST_REQUEST = "ADD_POST_REQUEST";
 export const ADD_POST_SUCCESS = "ADD_POST_SUCCESS";
 export const ADD_POST_FAILURE = "ADD_POST_FAILURE";
 
+export const ADD_COMMENT_REQUEST = "ADD_COMMENT_REQUEST";
+export const ADD_COMMENT_SUCCESS = "ADD_COMMENT_SUCCESS";
+export const ADD_COMMENT_FAILURE = "ADD_COMMENT_FAILURE";
+
 // action creator
 
-export const addPostRequestAction = createAction(ADD_POST_REQUEST);
+export const addPostRequestAction = createAction(
+    ADD_POST_REQUEST,
+    (data) => data,
+);
 
 // reducer
 
 const reducer = handleActions(
     {
-        // [ADD_POST_REQUEST]: (state, action) => ({
-        //     ...state,
-        //     // 잎에 추가를 해야 위에서 부터 추가됨
-        //     mainPosts: state.mainPosts.concat(dummyPost),
-        //     //[dummyPost, ...state.mainPosts],
-        // }),
-        [ADD_POST_SUCCESS]: (state, action) => ({
+        [ADD_POST_REQUEST]: (state, action) => ({
             ...state,
             // 잎에 추가를 해야 위에서 부터 추가됨
             mainPosts: state.mainPosts.concat(dummyPost),
-            //[dummyPost, ...state.mainPosts],
+            addPostLoading: true,
+            addPostDone: false,
+            addPostError: null,
+        }),
+        [ADD_POST_SUCCESS]: (state, action) => ({
+            ...state,
+            // 잎에 추가를 해야 위에서 부터 추가됨
+            mainPosts: [dummyPost, ...state.mainPosts],
+            addPostLoading: false,
+            addPostDone: true,
+            addPostError: null,
         }),
         [ADD_POST_FAILURE]: (state, action) => ({
             ...state,
             // 잎에 추가를 해야 위에서 부터 추가됨
-            mainPosts: state.mainPosts.concat(dummyPost),
-            //[dummyPost, ...state.mainPosts],
+            mainPosts: [dummyPost, ...state.mainPosts],
+            addPostLoading: false,
+            addPostDone: false,
+            addPostError: action.error,
+        }),
+        [ADD_COMMENT_REQUEST]: (state, action) => ({
+            ...state,
+            // 잎에 추가를 해야 위에서 부터 추가됨
+            addCommentLoading: true,
+            addCommentDone: false,
+            addCommentError: null,
+        }),
+        [ADD_COMMENT_SUCCESS]: (state, action) => ({
+            ...state,
+            // 잎에 추가를 해야 위에서 부터 추가됨
+            addCommentLoading: false,
+            addCommentDone: true,
+            addCommentError: null,
+        }),
+        [ADD_COMMENT_FAILURE]: (state, action) => ({
+            ...state,
+            // 잎에 추가를 해야 위에서 부터 추가됨
+            addCommentLoading: false,
+            addCommentDone: false,
+            addCommentError: action.error,
         }),
     },
     initialState,

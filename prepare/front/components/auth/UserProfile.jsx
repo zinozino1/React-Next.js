@@ -7,7 +7,7 @@ const UserProfile = () => {
     const dispatch = useDispatch();
 
     const { me } = useSelector((state) => state.user);
-    const { isLoggingOut } = useSelector((state) => state.user);
+    const { logOutLoading } = useSelector((state) => state.user);
 
     const onLogout = useCallback(() => {
         dispatch(logoutRequestAction());
@@ -34,7 +34,7 @@ const UserProfile = () => {
                 avatar={<Avatar>{me.nickname[0]}</Avatar>}
             ></Card.Meta>
 
-            <Button onClick={onLogout} loading={isLoggingOut}>
+            <Button onClick={onLogout} loading={logOutLoading}>
                 로그아웃
             </Button>
         </Card>
