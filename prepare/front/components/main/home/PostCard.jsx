@@ -9,9 +9,10 @@ import {
 } from "@ant-design/icons";
 import PostImages from "./PostImages";
 import CommentForm from "./CommentForm";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import PostCardContent from "./PostCardContent";
+import { removePostReqeustAction } from "../../../reducers/post";
 
 const CardWrapper = styled.div`
     margin-bottom: 15px;
@@ -25,8 +26,11 @@ const PostCard = ({ post }) => {
     const [liked, setLiked] = useState(false);
     const [commentFormOpened, setCommentFormOpened] = useState(false);
 
+    const dispatch = useDispatch();
+
     const { me } = useSelector((state) => state.user);
     const id = useSelector((state) => state.user.me && state.user.me.id);
+    const { removePostLoading } = useSelector((state) => state.post);
 
     const onToggleLike = useCallback(() => {
         setLiked(!liked);
@@ -35,6 +39,10 @@ const PostCard = ({ post }) => {
     const onToggleComment = useCallback(() => {
         setCommentFormOpened(!commentFormOpened);
     }, [commentFormOpened]);
+
+    const onRemovePost = useCallback(() => {
+        dispatch(removePostReqeustAction(post.id));
+    }, [post]);
 
     return (
         <CardWrapper>
@@ -66,7 +74,13 @@ const PostCard = ({ post }) => {
                                 {id && post.User.id === id ? (
                                     <>
                                         <Button type="primary">수정</Button>
-                                        <Button type="danger">삭제</Button>
+                                        <Button
+                                            type="danger"
+                                            onClick={onRemovePost}
+                                            loading={removePostLoading}
+                                        >
+                                            삭제
+                                        </Button>
                                     </>
                                 ) : (
                                     <Button>신고</Button>

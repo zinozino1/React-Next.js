@@ -69,11 +69,11 @@ const dummyMe = { nickname: "zino" };
 const dummyUser = (data) => ({
     // me에 들어갈 데이터
     ...data,
-    nickname: "제로초",
+    nickname: "박진호",
     id: 1,
-    Posts: [],
-    Followings: [],
-    Followers: [],
+    Posts: [{ id: 1 }], // 내가 쓴 게시물
+    Followings: [{ nickname: "zino" }, { nickname: "zin2o" }],
+    Followers: [{ nickname: "zino" }, { nickname: "zin2o" }],
 });
 
 const reducer = handleActions(
@@ -169,6 +169,22 @@ const reducer = handleActions(
             followLoading: false, // 팔로우 시도중
             followDone: false,
             followError: null,
+        }),
+        [ADD_POST_TO_ME]: (state, action) => ({
+            ...state,
+            me: {
+                ...state.me,
+                Posts: state.me.Posts.concat({ id: action.data.id }),
+            },
+        }),
+        [REMOVE_POST_OF_ME]: (state, action) => ({
+            ...state,
+            me: {
+                ...state.me,
+                Posts: state.me.Posts.filter((v, i) => {
+                    if (v.id !== action.id) return { ...v };
+                }),
+            },
         }),
     },
     initialState,

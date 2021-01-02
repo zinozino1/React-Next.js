@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import { Card, Avatar, Button } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutRequestAction } from "../../reducers/user";
+import Router from "next/router";
 
 const UserProfile = () => {
     const dispatch = useDispatch();
@@ -13,18 +14,22 @@ const UserProfile = () => {
         dispatch(logoutRequestAction());
     }, []);
 
+    const onRedirectProfile = useCallback(() => {
+        Router.push("/profile");
+    }, []);
+
     return (
         <Card
             actions={[
-                <div key="twit">
+                <div key="twit" onClick={onRedirectProfile}>
                     트윗
                     <br /> {me.Posts.length}
                 </div>,
-                <div key="followings">
+                <div key="followings" onClick={onRedirectProfile}>
                     팔로잉
                     <br /> {me.Followings.length}
                 </div>,
-                <div key="followers">
+                <div key="followers" onClick={onRedirectProfile}>
                     팔로워
                     <br /> {me.Followers.length}
                 </div>,

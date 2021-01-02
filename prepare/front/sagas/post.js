@@ -1,4 +1,4 @@
-import { takeLatest, call, put, delay } from "redux-saga/effects";
+import { takeLatest, call, put, delay, throttle } from "redux-saga/effects";
 import {
     ADD_POST_REQUEST,
     ADD_POST_SUCCESS,
@@ -6,7 +6,15 @@ import {
     ADD_COMMENT_REQUEST,
     ADD_COMMENT_SUCCESS,
     ADD_COMMENT_FAILURE,
+    REMOVE_POST_REQUEST,
+    REMOVE_POST_SUCCESS,
+    REMOVE_POST_FAILURE,
+    LOAD_POSTS_REQUEST,
+    LOAD_POSTS_SUCCESS,
+    LOAD_POSTS_FAILURE,
 } from "../reducers/post";
+import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from "../reducers/user";
+import shortId from "shortid";
 
 // api
 
@@ -20,20 +28,34 @@ function addCommentAPI(data) {
 
 // saga
 
+function* loadPosts(action) {
+    yield delay(1500);
+    try {
+        yield put({ type: LOAD_POSTS_SUCCESS });
+    } catch (error) {
+        console.log(error);
+        yield put({ type: LOAD_POSTS_FAILURE, error: error.response.data });
+    }
+}
+
 function* addPost(action) {
     try {
         // const result = yield call(addPostAPI, action.data);
         yield delay(1000);
-        //const id = shortId.generate();
-        console.log(action.payload);
+        const id = shortId.generate();
+
         yield put({
             type: ADD_POST_SUCCESS,
-            data: action.payload,
+            data: {
+                id,
+                content: action.payload.content,
+                nickname: action.payload.nickname,
+            },
         });
-        // yield put({
-        //     type: ADD_POST_TO_ME,
-        //     data: id,
-        // });
+        yield put({
+            type: ADD_POST_TO_ME,
+            data: { id, content: action.payload.content },
+        });
     } catch (err) {
         console.error(err);
         yield put({
@@ -62,9 +84,23 @@ function* addComment(action) {
     }
 }
 
+function* removePost(action) {
+    try {
+        yield delay(1000);
+
+        yield put({ type: REMOVE_POST_SUCCESS, id: action.payload });
+        yield put({ type: REMOVE_POST_OF_ME, id: action.payload });
+    } catch (error) {
+        console.log(error);
+        yield put({ type: REMOVE_POST_FAILURE, error: error.response.data });
+    }
+}
+
 // watcher
 
 export function* watchPost() {
     yield takeLatest(ADD_POST_REQUEST, addPost);
     yield takeLatest(ADD_COMMENT_REQUEST, addComment);
+    yield takeLatest(REMOVE_POST_REQUEST, removePost);
+    yield takeLatest(LOAD_POSTS_REQUEST, loadPosts);
 }

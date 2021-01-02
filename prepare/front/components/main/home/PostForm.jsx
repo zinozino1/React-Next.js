@@ -11,6 +11,7 @@ const FormWrapper = styled(Form)`
 
 const PostForm = () => {
     const { imagePaths, addPostDone } = useSelector((state) => state.post);
+    const { me } = useSelector((state) => state.user);
 
     const dispatch = useDispatch();
 
@@ -22,7 +23,9 @@ const PostForm = () => {
     }, []);
 
     const onSubmit = useCallback(() => {
-        dispatch(addPostRequestAction(text));
+        dispatch(
+            addPostRequestAction({ nickname: me.nickname, content: text }),
+        );
     }, [text]);
 
     const onClickImageUpload = useCallback(() => {

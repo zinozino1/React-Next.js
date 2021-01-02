@@ -12,7 +12,9 @@ const FormWrapper = styled(Form)`
 
 const CommentForm = ({ post }) => {
     const id = useSelector((state) => state.user.me?.id);
-    const { addCommentDone } = useSelector((state) => state.post);
+    const { addCommentDone, addCommentLoading } = useSelector(
+        (state) => state.post,
+    );
 
     const dispatch = useDispatch();
 
@@ -43,7 +45,12 @@ const CommentForm = ({ post }) => {
                 onChange={onChangeCommentText}
                 value={commentText}
             ></Input.TextArea>
-            <Button type="primary" htmlType="submit" style={{ float: "right" }}>
+            <Button
+                type="primary"
+                htmlType="submit"
+                style={{ float: "right" }}
+                loading={addCommentLoading}
+            >
                 등록
             </Button>
         </FormWrapper>
