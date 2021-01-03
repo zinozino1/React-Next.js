@@ -13,7 +13,16 @@ import {
     LOAD_POSTS_SUCCESS,
     LOAD_POSTS_FAILURE,
 } from "../reducers/post";
-import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from "../reducers/user";
+import {
+    ADD_POST_TO_ME,
+    REMOVE_POST_OF_ME,
+    FOLLOW_REQUEST,
+    FOLLOW_SUCCESS,
+    FOLLOW_FAILURE,
+    UNFOLLOW_REQUEST,
+    UNFOLLOW_SUCCESS,
+    UNFOLLOW_FAILURE,
+} from "../reducers/user";
 import shortId from "shortid";
 
 // api
@@ -96,6 +105,26 @@ function* removePost(action) {
     }
 }
 
+function* follow(action) {
+    try {
+        yield delay(1000);
+        yield put({ type: FOLLOW_SUCCESS, post: action.payload });
+    } catch (error) {
+        console.log(error);
+        yield put({ type: FOLLOW_FAILURE });
+    }
+}
+
+function* unFollow(action) {
+    try {
+        yield delay(1000);
+        yield put({ type: UNFOLLOW_SUCCESS, post: action.payload });
+    } catch (error) {
+        console.log(error);
+        yield put({ type: UNFOLLOW_FAILURE });
+    }
+}
+
 // watcher
 
 export function* watchPost() {
@@ -103,4 +132,6 @@ export function* watchPost() {
     yield takeLatest(ADD_COMMENT_REQUEST, addComment);
     yield takeLatest(REMOVE_POST_REQUEST, removePost);
     yield takeLatest(LOAD_POSTS_REQUEST, loadPosts);
+    yield takeLatest(FOLLOW_REQUEST, follow);
+    yield takeLatest(UNFOLLOW_REQUEST, unFollow);
 }

@@ -13,6 +13,10 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import PostCardContent from "./PostCardContent";
 import { removePostReqeustAction } from "../../../reducers/post";
+import {
+    followReqeustAction,
+    unFollowReqeustAction,
+} from "../../../reducers/user";
 
 const CardWrapper = styled.div`
     margin-bottom: 15px;
@@ -31,7 +35,7 @@ const PostCard = ({ post }) => {
     const { me } = useSelector((state) => state.user);
     const id = useSelector((state) => state.user.me && state.user.me.id);
     const { removePostLoading } = useSelector((state) => state.post);
-
+    const { followLoading } = useSelector((state) => state.user);
     const onToggleLike = useCallback(() => {
         setLiked(!liked);
     }, [liked]);
@@ -44,13 +48,50 @@ const PostCard = ({ post }) => {
         dispatch(removePostReqeustAction(post.id));
     }, [post]);
 
+    const isFollowing = () => {
+        if (
+            me &&
+            me.Followings.some((element) => {
+                if (element.id === post.User.id) return true;
+            })
+        ) {
+            return true;
+        } else return false;
+    };
+
+    const onFollow = useCallback(() => {
+        dispatch(followReqeustAction(post));
+    }, [post]);
+    const onUnFollow = useCallback(() => {
+        dispatch(unFollowReqeustAction(post));
+    }, [post]);
+
     return (
         <CardWrapper>
             <Card
                 cover={
-                    post.Images[0] && (
-                        <PostImages images={post.Images}></PostImages>
-                    )
+                    <>
+                        {post.Images[0] && (
+                            <PostImages images={post.Images}></PostImages>
+                        )}
+                    </>
+                }
+                extra={
+                    me &&
+                    me.id !== post.User.id &&
+                    (isFollowing() ? (
+                        <Button style={{ float: "right" }} onClick={onUnFollow}>
+                            언팔로우
+                        </Button>
+                    ) : (
+                        <Button
+                            style={{ float: "right" }}
+                            onClick={onFollow}
+                            loading={followLoading}
+                        >
+                            팔로우
+                        </Button>
+                    ))
                 }
                 actions={[
                     <RetweetOutlined key="retweet" />,

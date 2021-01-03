@@ -62,6 +62,12 @@ export const logoutRequestAction = createAction(LOG_OUT_REQUEST);
 
 export const signUpRequestAction = createAction(SIGN_UP_REQUEST);
 
+export const followReqeustAction = createAction(FOLLOW_REQUEST, (post) => post);
+export const unFollowReqeustAction = createAction(
+    UNFOLLOW_REQUEST,
+    (post) => post,
+);
+
 // reducer
 
 const dummyMe = { nickname: "zino" };
@@ -72,7 +78,7 @@ const dummyUser = (data) => ({
     nickname: "박진호",
     id: 1,
     Posts: [{ id: 1 }], // 내가 쓴 게시물
-    Followings: [{ nickname: "zino" }, { nickname: "zin2o" }],
+    Followings: [],
     Followers: [{ nickname: "zino" }, { nickname: "zin2o" }],
 });
 
@@ -163,12 +169,46 @@ const reducer = handleActions(
             followLoading: false, // 팔로우 시도중
             followDone: true,
             followError: null,
+            me: {
+                ...state.me,
+                Followings: [
+                    ...state.me.Followings,
+                    {
+                        id: action.post.User.id,
+                        nickname: action.post.User.nickname,
+                    },
+                ],
+            },
         }),
         [FOLLOW_FAILURE]: (state, action) => ({
             ...state,
             followLoading: false, // 팔로우 시도중
             followDone: false,
             followError: null,
+        }),
+        [UNFOLLOW_REQUEST]: (state, action) => ({
+            ...state,
+            unfollowLoading: false, // 언팔로우 시도중
+            unfollowDone: false,
+            unfollowError: null,
+        }),
+        [UNFOLLOW_SUCCESS]: (state, action) => ({
+            ...state,
+            unfollowLoading: false, // 언팔로우 시도중
+            unfollowDone: false,
+            unfollowError: null,
+            me: {
+                ...state.me,
+                Followings: state.me.Followings.filter((v, i) => {
+                    if (action.post.User.id !== v.id) return v;
+                }),
+            },
+        }),
+        [UNFOLLOW_FAILURE]: (state, action) => ({
+            ...state,
+            unfollowLoading: false, // 언팔로우 시도중
+            unfollowDone: false,
+            unfollowError: null,
         }),
         [ADD_POST_TO_ME]: (state, action) => ({
             ...state,

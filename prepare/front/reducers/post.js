@@ -10,10 +10,10 @@ const initialState = {
         {
             id: shortId.generate(),
             User: {
-                id: shortId.generate(),
+                id: 123,
                 nickname: "제로초",
             },
-            content: "첫 번째 게시글 #해시태그 #키키 #ㄴㄴㄴ ##adf",
+            content: "첫 번째 게시ㅁㄴㅇㄹ글 #해시태그 #키키 #ㄴㄴㄴ ##adf",
             Images: [
                 {
                     src:
@@ -46,10 +46,10 @@ const initialState = {
         {
             id: shortId.generate(),
             User: {
-                id: shortId.generate(),
+                id: 123,
                 nickname: "제로초",
             },
-            content: "첫 번째 게시글",
+            content: "첫 ㅁㄴㅇㄹ번째 게시글",
             Images: [
                 {
                     src:
